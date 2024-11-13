@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+
+        <img id="close-button" src="images/exit.png" alt="Close">
+        <img id="mute-button" src="images/unmute.png" alt="Close">
+
+        <h1 class="cooltext">Countdown timer to xmas:</h1>
+  <div id="countdown">Loading...</div>
+
+        <div class="tree">
+            <img src="images/tree.png" alt="ff">
+        </div>
+
+        <div class="snow">
+            <img src="images/snow02.gif" alt="ff">
+        </div>
+
+        <audio id="background-audio" src="audio/Tommens Christmas Tune.mp3" loop autoplay></audio>
+        
+        <script>
+         const audio = document.getElementById('background-audio');
+    const muteButton = document.getElementById('mute-button');
+
+    audio.muted = false;
+    muteButton.src = "images/unmute.png";
+
+   
+    muteButton.addEventListener('click', () => {
+      audio.muted = !audio.muted;  
+      muteButton.src = audio.muted ? "images/mute.png" : "images/unmute.png";
+    });
+
+            function calculateDaysUntil(targetDate) {
+      // Get today's date and remove the time part to focus on days only
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);  // Reset time to midnight
+
+      // Calculate the time difference in milliseconds
+      const difference = targetDate - today;
+
+      // Convert difference from milliseconds to days
+      return Math.ceil(difference / (1000 * 60 * 60 * 24));
+    }
+
+    function updateCountdown() {
+      // Set the target date to December 24 of the current year
+      const currentYear = new Date().getFullYear();
+      const targetDate = new Date(`December 24, ${currentYear}`);
+
+      // Calculate days until target date
+      let daysRemaining = calculateDaysUntil(targetDate);
+
+      // If the target date has passed for this year, calculate for the next year
+      if (daysRemaining < 0) {
+        const nextYear = currentYear + 1;
+        const nextTargetDate = new Date(`December 24, ${nextYear}`);
+        daysRemaining = calculateDaysUntil(nextTargetDate);
+      }
+
+      // Display the countdown in the #countdown element
+      document.getElementById("countdown").textContent = daysRemaining;
+    }
+
+    // Initial call to display the countdown
+    updateCountdown();
+
+        </script>
+        <script src="renderer.js"></script>
+    </body>
+</html>
